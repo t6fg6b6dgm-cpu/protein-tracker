@@ -13,7 +13,7 @@
     font-family: -apple-system, "PingFang TC", "Helvetica Neue", sans-serif;
     background: #fdf6ec;
     color: #3a2b1a;
-    padding-bottom: 90px;
+    padding-bottom: 110px;
   }
   header {
     background: linear-gradient(180deg, #f5d98f, #eec870);
@@ -26,12 +26,12 @@
   }
   header h1 {
     margin: 0;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 800;
   }
   header h1 span {
     color: #d9480f;
-    font-size: 24px;
+    font-size: 26px;
   }
   .container {
     padding: 10px;
@@ -47,14 +47,14 @@
   thead th {
     background: #6b4226;
     color: #fff;
-    font-size: 13px;
+    font-size: 14px;
     padding: 8px 4px;
     text-align: center;
   }
   tbody td {
     padding: 8px 4px;
     text-align: center;
-    font-size: 13px;
+    font-size: 14px;
     border-bottom: 1px solid #eee0c8;
   }
   tbody tr:nth-child(even) {
@@ -64,12 +64,12 @@
     text-align: left !important;
     padding-left: 8px !important;
     font-weight: 600;
-    font-size: 13px;
+    font-size: 14px;
   }
   input[type="number"] {
-    width: 52px;
+    width: 56px;
     padding: 6px 2px;
-    font-size: 14px;
+    font-size: 15px;
     text-align: center;
     border: 1px solid #c9a86c;
     border-radius: 6px;
@@ -86,20 +86,41 @@
     right: 0;
     background: #ffe9a6;
     border-top: 2px solid #e0b24d;
-    padding: 12px 16px;
+    padding: 10px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 0 -3px 8px rgba(0,0,0,0.15);
+  }
+  .footer-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 -3px 8px rgba(0,0,0,0.15);
   }
   footer .label {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 700;
   }
   footer .total {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 800;
+  }
+  .total.incomplete {
     color: #c92a2a;
+  }
+  .total.complete {
+    color: #2b8a3e;
+  }
+  .status {
+    text-align: right;
+    font-size: 16px;
+    font-weight: 800;
+  }
+  .status.incomplete {
+    color: #c92a2a;
+  }
+  .status.complete {
+    color: #2b8a3e;
   }
   .reset-btn {
     display: block;
@@ -109,7 +130,7 @@
     color: #fff;
     border: none;
     border-radius: 20px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
   }
 </style>
@@ -140,8 +161,11 @@
 </div>
 
 <footer>
-  <span class="label">總蛋白質攝取：</span>
-  <span class="total" id="totalDisplay">0 份</span>
+  <div class="footer-top">
+    <span class="label">總蛋白質攝取：</span>
+    <span class="total" id="totalDisplay">0 份</span>
+  </div>
+  <div class="status" id="statusDisplay"></div>
 </footer>
 
 <script>
@@ -158,6 +182,7 @@
   ];
 
   const STORAGE_KEY = "proteinTrackerData";
+  const DAILY_TARGET = 8;
 
   function fmt(num) {
     return (Number.isInteger(num)) ? num.toString() : num.toFixed(1);
@@ -193,7 +218,7 @@
         <td class="food-name">${food.name}</td>
         <td>${food.portion}</td>
         <td>${fmt(food.protein)}份</td>
-        <td><input type="number" id="input-${i}"inputmode="decimal"min="0"step="0.5"value="${savedVal || ''}" placeholder="0" oninput="updateRow(${i})"></td>
+        <td><input type="number" id="input-${i}" inputmode="decimal" min="0" step="0.5" value="${savedVal || ''}" placeholder="0" oninput="updateRow(${i})"></td>
         <td class="protein-result" id="result-${i}">${fmt(food.protein * savedVal)}</td>
       `;
       tbody.appendChild(row);
@@ -215,7 +240,26 @@
       const val = parseFloat(document.getElementById('input-' + i).value) || 0;
       total += food.protein * val;
     });
-    document.getElementById('totalDisplay').textContent = fmt(total) + " 份";
+
+    const totalDisplay = document.getElementById('totalDisplay');
+    const statusDisplay = document.getElementById('statusDisplay');
+
+    totalDisplay.textContent = fmt(total) + " 份";
+
+    if (total < DAILY_TARGET) {
+      const remaining = DAILY_TARGET - total;
+      totalDisplay.classList.remove('complete');
+      totalDisplay.classList.add('incomplete');
+      statusDisplay.classList.remove('complete');
+      statusDisplay.classList.add('incomplete');
+      statusDisplay.textContent = `尚欠 ${fmt(remaining)} 份`;
+    } else {
+      totalDisplay.classList.remove('incomplete');
+      totalDisplay.classList.add('complete');
+      statusDisplay.classList.remove('incomplete');
+      statusDisplay.classList.add('complete');
+      statusDisplay.textContent = "🎉成功!! 🎉";
+    }
   }
 
   function resetAll() {
@@ -228,4 +272,3 @@
 
 </body>
 </html>
-
