@@ -54,7 +54,7 @@
   tbody td {
     padding: 8px 4px;
     text-align: center;
-    font-size: 14px;
+    font-size: 16px;
     border-bottom: 1px solid #eee0c8;
   }
   tbody tr:nth-child(even) {
@@ -64,12 +64,12 @@
     text-align: left !important;
     padding-left: 8px !important;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 16px;
   }
   input[type="number"] {
     width: 56px;
     padding: 6px 2px;
-    font-size: 15px;
+    font-size: 17px;
     text-align: center;
     border: 1px solid #c9a86c;
     border-radius: 6px;
@@ -98,11 +98,11 @@
     align-items: center;
   }
   footer .label {
-    font-size: 16px;
+    font-size: 23px;
     font-weight: 700;
   }
   footer .total {
-    font-size: 22px;
+    font-size: 25px;
     font-weight: 800;
   }
   .total.incomplete {
@@ -113,7 +113,7 @@
   }
   .status {
     text-align: right;
-    font-size: 16px;
+    font-size: 22px;
     font-weight: 800;
   }
   .status.incomplete {
@@ -170,15 +170,15 @@
 
 <script>
   const foods = [
-    { name: "雀巢 速癒素",        portion: "1枝",     protein: 3 },
-    { name: "莓味 能全素",        portion: "1枝",     protein: 2.5 },
-    { name: "雞蛋",               portion: "1隻",     protein: 1 },
-    { name: "大雞胸 / 大雞髀肉",   portion: "1隻",     protein: 3 },
-    { name: "生免治肉",           portion: "45克",    protein: 1 },
-    { name: "生魚肉",             portion: "45克",    protein: 1 },
-    { name: "生帶子 / 生中蝦",     portion: "4隻",     protein: 1 },
-    { name: "海參",               portion: "1件",     protein: 1.5 },
-    { name: "牛奶",               portion: "210毫升", protein: 1 }
+    { name: "雀巢 速癒素 🍼",        portion: "1枝",     protein: 3 },
+    { name: "莓味 能全素 🍓",        portion: "1枝",     protein: 2.5 },
+    { name: "雞蛋 🥚",               portion: "1隻",     protein: 1 },
+    { name: "大雞胸 / 大雞髀肉 🍗",   portion: "1隻",     protein: 3 },
+    { name: "生免治肉 🥩",           portion: "45克",    protein: 1 },
+    { name: "生魚肉 🐟",             portion: "45克",    protein: 1 },
+    { name: "生帶子 / 生中蝦 🦐",     portion: "4隻",     protein: 1 },
+    { name: "海參🪶",               portion: "1件",     protein: 1.5 },
+    { name: "牛奶 🥛",               portion: "210毫升", protein: 1 }
   ];
 
   const STORAGE_KEY = "proteinTrackerData";
@@ -218,8 +218,8 @@
         <td class="food-name">${food.name}</td>
         <td>${food.portion}</td>
         <td>${fmt(food.protein)}份</td>
-        <td><input type="number" id="input-${i}" inputmode="decimal" min="0" step="0.5" value="${savedVal || ''}" placeholder="0" oninput="updateRow(${i})"></td>
-        <td class="protein-result" id="result-${i}">${fmt(food.protein * savedVal)}</td>
+        <td><input type="number" id="input-i"inputmode="decimal"min="0"step="0.5"value="{savedVal || ''}" placeholder="0" oninput="updateRow(${i})"></td>
+        <td class="protein-result" id="result-i">{fmt(food.protein * savedVal)}</td>
       `;
       tbody.appendChild(row);
     });
@@ -272,3 +272,4 @@
 
 </body>
 </html>
+
