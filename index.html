@@ -276,7 +276,7 @@
           <div class="food-meta">${food.portion}　${fmt(food.protein)}份蛋白質</div>
         </div>
         <div class="stepper">
-          <button class="step-btn minus" id="minus-${i}" onclick="changeValue(${i}, 1)" ${savedVal <= 0 ? 'disabled' : ''}>−</button>
+          <button class="step-btn minus" id="minus-${i}" onclick="changeValue(${i}, -1)" ${savedVal <= 0 ? 'disabled' : ''}>−</button>
           <span class="step-value" id="value-${i}" data-val="${savedVal}">${fmt(savedVal)}</span>
           <button class="step-btn plus" onclick="changeValue(${i}, 1)">+</button>
         </div>
@@ -331,7 +331,7 @@
       progressBar.classList.add('complete');
       statusDisplay.classList.remove('incomplete');
       statusDisplay.classList.add('complete');
-      statusDisplay.textContent = "🎉🎉🎉 成功!!! 🎉🎉";
+      statusDisplay.textContent = "🎉🎉🎉 成功!!! 🎉🎉🎉";
     }
   }
 
