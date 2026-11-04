@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="蛋白質記錄">
 <title>每日蛋白質記錄</title>
@@ -13,12 +13,12 @@
     font-family: -apple-system, "PingFang TC", "Helvetica Neue", sans-serif;
     background: #fdf6ec;
     color: #3a2b1a;
-    padding-bottom: 110px;
+    padding-bottom: calc(150px + env(safe-area-inset-bottom));
   }
   header {
     background: linear-gradient(180deg, #f5d98f, #eec870);
     text-align: center;
-    padding: 16px 10px 12px;
+    padding: 18px 10px 14px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.15);
     position: sticky;
     top: 0;
@@ -26,59 +26,112 @@
   }
   header h1 {
     margin: 0;
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 800;
   }
   header h1 span {
     color: #d9480f;
-    font-size: 26px;
+    font-size: 30px;
   }
   .container {
-    padding: 10px;
+    padding: 14px;
   }
-  table {
-    width: 100%;
-    border-collapse: collapse;
+
+  /* Food cards */
+  .food-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .food-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
     background: #fdf8ee;
-    border-radius: 10px;
-    overflow: hidden;
+    border-radius: 16px;
+    padding: 14px 16px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   }
-  thead th {
-    background: #6b4226;
-    color: #fff;
-    font-size: 14px;
-    padding: 8px 4px;
-    text-align: center;
-  }
-  tbody td {
-    padding: 8px 4px;
-    text-align: center;
-    font-size: 14px;
-    border-bottom: 1px solid #eee0c8;
-  }
-  tbody tr:nth-child(even) {
-    background: #fbf1da;
+  .food-info {
+    flex: 1 1 auto;
+    min-width: 0;
   }
   .food-name {
-    text-align: left !important;
-    padding-left: 8px !important;
-    font-weight: 600;
-    font-size: 15px;
-  }
-  input[type="number"] {
-    width: 56px;
-    padding: 6px 2px;
-    font-size: 15px;
-    text-align: center;
-    border: 1px solid #c9a86c;
-    border-radius: 6px;
-    background: #fff;
-  }
-  .protein-result {
+    font-size: 18px;
     font-weight: 700;
-    color: #d9480f;
+    line-height: 1.35;
   }
+  .food-meta {
+    font-size: 14px;
+    color: #8a6d3b;
+    margin-top: 3px;
+  }
+
+  /* Stepper */
+  .stepper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .step-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: none;
+    background: #a65d2e;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .step-btn.plus {
+    background: #d9480f;
+  }
+  .step-btn:disabled {
+    opacity: 0.35;
+  }
+  .step-btn:active {
+    transform: scale(0.92);
+  }
+  .step-value {
+    min-width: 36px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: #3a2b1a;
+  }
+
+  .protein-result {
+    font-size: 17px;
+    font-weight: 800;
+    color: #d9480f;
+    min-width: 58px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .reset-btn {
+    display: block;
+    margin: 16px auto 4px;
+    padding: 10px 22px;
+    background: #a65d2e;
+    color: #fff;
+    border: none;
+    border-radius: 22px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .reset-btn:active {
+    transform: scale(0.96);
+  }
+
+  /* Footer with progress bar */
   footer {
     position: fixed;
     bottom: 0;
@@ -86,52 +139,60 @@
     right: 0;
     background: #ffe9a6;
     border-top: 2px solid #e0b24d;
-    padding: 10px 16px;
+    padding: 14px 18px calc(14px + env(safe-area-inset-bottom)) 18px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 10px;
     box-shadow: 0 -3px 8px rgba(0,0,0,0.15);
   }
-  .footer-top {
+  .progress-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .progress-label {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
   }
-  footer .label {
-    font-size: 18px;
+  .progress-label .label-text {
+    font-size: clamp(15px, 4vw, 19px);
     font-weight: 700;
   }
-  footer .total {
-    font-size: 24px;
+  .progress-label .total-text {
+    font-size: clamp(21px, 6vw, 28px);
     font-weight: 800;
   }
-  .total.incomplete {
-    color: #c92a2a;
+  .progress-container {
+    width: 100%;
+    height: 18px;
+    background: #f3e5c3;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e0b24d;
   }
-  .total.complete {
-    color: #2b8a3e;
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    border-radius: 12px;
+    transition: width 0.35s ease, background 0.35s ease;
+  }
+  .progress-bar.incomplete {
+    background: linear-gradient(90deg, #ff8787, #e8590c);
+  }
+  .progress-bar.complete {
+    background: linear-gradient(90deg, #69db7c, #2b8a3e);
   }
   .status {
-    text-align: right;
-    font-size: 20px;
+    text-align: center;
+    font-size: clamp(17px, 4.8vw, 21px);
     font-weight: 800;
   }
   .status.incomplete {
-    color: #f7395f;
+    color: #c92a2a;
   }
   .status.complete {
     color: #2b8a3e;
-  }
-  .reset-btn {
-    display: block;
-    margin: 12px auto 4px;
-    padding: 8px 18px;
-    background: #a65d2e;
-    color: #fff;
-    border: none;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: 600;
   }
 </style>
 </head>
@@ -142,28 +203,22 @@
 </header>
 
 <div class="container">
-  <table>
-    <thead>
-      <tr>
-        <th>食物</th>
-        <th>份量</th>
-        <th>蛋白質<br>含量</th>
-        <th>攝取量</th>
-        <th>蛋白質<br>攝取</th>
-      </tr>
-    </thead>
-    <tbody id="foodTableBody">
-      <!-- rows injected by JS -->
-    </tbody>
-  </table>
+  <div class="food-list" id="foodTableBody">
+    <!-- rows injected by JS -->
+  </div>
 
   <button class="reset-btn" onclick="resetAll()">重設所有數值</button>
 </div>
 
 <footer>
-  <div class="footer-top">
-    <span class="label">總蛋白質攝取：</span>
-    <span class="total" id="totalDisplay">0 份</span>
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span class="label-text">總蛋白質攝取</span>
+      <span class="total-text" id="totalDisplay">0 / 8 份</span>
+    </div>
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
   </div>
   <div class="status" id="statusDisplay"></div>
 </footer>
@@ -173,10 +228,10 @@
     { name: "雀巢 速癒素🍼",        portion: "1枝",     protein: 3 },
     { name: "莓味 能全素🍓",        portion: "1枝",     protein: 2.5 },
     { name: "雞蛋🐣",               portion: "1隻",     protein: 1 },
-    { name: "大雞胸 / 大雞髀肉🍗",   portion: "1隻",     protein: 3 },
+    { name: "大雞胸 / 大雞髀肉🍗",   portion: "0.5隻",     protein: 1.5 },
     { name: "生免治肉🥩",           portion: "45克",    protein: 1 },
     { name: "生魚肉🐟",             portion: "45克",    protein: 1 },
-    { name: "生帶子 / 生中蝦🦐",     portion: "4隻",     protein: 1 },
+    { name: "生帶子 / 生中蝦🦐",     portion: "1隻",     protein: 0.25 },
     { name: "海參🪶",               portion: "1件",     protein: 1.5 },
     { name: "牛奶🥛",               portion: "210毫升", protein: 1 }
   ];
@@ -200,7 +255,7 @@
   function saveValues() {
     const data = {};
     foods.forEach((f, i) => {
-      const val = parseFloat(document.getElementById('input-' + i).value) || 0;
+      const val = parseFloat(document.getElementById('value-' + i).dataset.val) || 0;
       data[i] = val;
     });
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
@@ -208,28 +263,42 @@
 
   function renderTable() {
     const saved = loadSavedValues();
-    const tbody = document.getElementById('foodTableBody');
-    tbody.innerHTML = "";
+    const list = document.getElementById('foodTableBody');
+    list.innerHTML = "";
 
     foods.forEach((food, i) => {
       const savedVal = saved[i] || 0;
-      const row = document.createElement('tr');
+      const row = document.createElement('div');
+      row.className = 'food-row';
       row.innerHTML = `
-        <td class="food-name">${food.name}</td>
-        <td>${food.portion}</td>
-        <td>${fmt(food.protein)}份</td>
-        <td><input type="number" id="input-${i}" inputmode="decimal" min="0" step="0.5" value="${savedVal || ''}" placeholder="0" oninput="updateRow(${i})"></td>
-        <td class="protein-result" id="result-${i}">${fmt(food.protein * savedVal)}</td>
+        <div class="food-info">
+          <div class="food-name">${food.name}</div>
+          <div class="food-meta">${food.portion}　${fmt(food.protein)}份蛋白質</div>
+        </div>
+        <div class="stepper">
+          <button class="step-btn minus" id="minus-${i}" onclick="changeValue(${i}, -0.5)" ${savedVal <= 0 ? 'disabled' : ''}>−</button>
+          <span class="step-value" id="value-${i}" data-val="${savedVal}">${fmt(savedVal)}</span>
+          <button class="step-btn plus" onclick="changeValue(${i}, 0.5)">+</button>
+        </div>
+        <div class="protein-result" id="result-${i}">${fmt(food.protein * savedVal)} 份</div>
       `;
-      tbody.appendChild(row);
+      list.appendChild(row);
     });
     updateTotal();
   }
 
-  function updateRow(i) {
-    const inputVal = parseFloat(document.getElementById('input-' + i).value) || 0;
-    const result = foods[i].protein * inputVal;
-    document.getElementById('result-' + i).textContent = fmt(result);
+  function changeValue(i, delta) {
+    const valueSpan = document.getElementById('value-' + i);
+    let val = parseFloat(valueSpan.dataset.val) || 0;
+    val = Math.max(0, Math.round((val + delta) * 2) / 2);
+    valueSpan.dataset.val = val;
+    valueSpan.textContent = fmt(val);
+
+    const result = foods[i].protein * val;
+    document.getElementById('result-' + i).textContent = fmt(result) + ' 份';
+
+    document.getElementById('minus-' + i).disabled = val <= 0;
+
     saveValues();
     updateTotal();
   }
@@ -237,25 +306,29 @@
   function updateTotal() {
     let total = 0;
     foods.forEach((food, i) => {
-      const val = parseFloat(document.getElementById('input-' + i).value) || 0;
+      const val = parseFloat(document.getElementById('value-' + i).dataset.val) || 0;
       total += food.protein * val;
     });
 
     const totalDisplay = document.getElementById('totalDisplay');
     const statusDisplay = document.getElementById('statusDisplay');
+    const progressBar = document.getElementById('progressBar');
 
-    totalDisplay.textContent = fmt(total) + " 份";
+    const percent = Math.min((total / DAILY_TARGET) * 100, 100);
+    progressBar.style.width = percent + '%';
+
+    totalDisplay.textContent = `${fmt(total)} / ${DAILY_TARGET} 份`;
 
     if (total < DAILY_TARGET) {
       const remaining = DAILY_TARGET - total;
-      totalDisplay.classList.remove('complete');
-      totalDisplay.classList.add('incomplete');
+      progressBar.classList.remove('complete');
+      progressBar.classList.add('incomplete');
       statusDisplay.classList.remove('complete');
       statusDisplay.classList.add('incomplete');
       statusDisplay.textContent = `尚欠 ${fmt(remaining)} 份`;
     } else {
-      totalDisplay.classList.remove('incomplete');
-      totalDisplay.classList.add('complete');
+      progressBar.classList.remove('incomplete');
+      progressBar.classList.add('complete');
       statusDisplay.classList.remove('incomplete');
       statusDisplay.classList.add('complete');
       statusDisplay.textContent = "🎉🎉🎉 成功!!! 🎉🎉";
@@ -263,8 +336,10 @@
   }
 
   function resetAll() {
-    localStorage.removeItem(STORAGE_KEY);
-    renderTable();
+    if (confirm("確定要重設所有數值嗎？")) {
+      localStorage.removeItem(STORAGE_KEY);
+      renderTable();
+    }
   }
 
   renderTable();
